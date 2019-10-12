@@ -3,11 +3,11 @@
         <div class="pageLogin">
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
                      class="demo-ruleForm">
-                <el-form-item label="手机号码" prop="pass">
-                    <el-input type="text" v-model="ruleForm.phoneNum" autocomplete="off"></el-input>
+                <el-form-item label="帐号" prop="pass">
+                    <el-input type="text" v-model="ruleForm.account" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="学生姓名" prop="checkPass">
-                    <el-input type="text" v-model="ruleForm.studentName" autocomplete="off"></el-input>
+                <el-form-item label="密码" prop="checkPass">
+                    <el-input type="text" v-model="ruleForm.password" autocomplete="off"></el-input>
                 </el-form-item>
 
                 <el-form-item>
@@ -26,7 +26,7 @@
     import LoginForm from "../components/LoginForm";
 
     export default {
-        name: 'home',
+        name: 'Teacher',
         components: {
             HomeMove,
         },
@@ -44,19 +44,19 @@
                     if (valid) {
                         let result = false
                         let params = {   //要么定义为params 传参{params}, 使用其他变量名,传参需{params:其他名}
-                            "studentName": this.ruleForm.studentName, "phoneNum": this.ruleForm.phoneNum
+                            "account": this.ruleForm.account, "password": this.ruleForm.password
                         }
                         debugger
-                        this.axios.get('/api/smy/controller/LoginStudent', {params}).then((response) => {
+                        this.axios.get('/api/smy/controller/LoginTeacher', {params}).then((response) => {
 
                             result = response.data.success;
                             if (result) {
-                                localStorage.setItem("student",JSON.stringify(response.data.student))
-                                localStorage.setItem("userType","student")
-                                this.$router.push("/mainPage")
+                                localStorage.setItem("teacher",JSON.stringify(response.data.teacher))
+                                localStorage.setItem("userType","teacher")
+                                this.$router.push("/admin")
                             } else {
                                 this.$message({
-                                    message: "请核对手机号和学生姓名",
+                                    message: "请核对帐号和密码",
                                     offset: "200",
                                     type: "error"
                                 })
@@ -115,8 +115,8 @@
             };
             return {
                 ruleForm: {
-                    phoneNum: '',
-                    studentName: '',
+                    password: '',
+                    account: '',
                 },
                 rules: {
                     pass: [
